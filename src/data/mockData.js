@@ -108,6 +108,19 @@ export function seedIfEmpty() {
   if (!localStorage.getItem(KEYS.SURGENTS)) write(KEYS.SURGENTS, SEED_SURGENTS);
   if (!localStorage.getItem(KEYS.VEHICLES)) write(KEYS.VEHICLES, SEED_VEHICLES);
   if (!localStorage.getItem(KEYS.FINES)) write(KEYS.FINES, SEED_FINES);
+
+  // Keep the seeded demo account usable after a language/content update.
+  const drivers = getDrivers();
+  const demoDriver = drivers.find((driver) => driver.id === "DRV-1001");
+  if (demoDriver && demoDriver.name === "Kamal Hossain") {
+    saveDrivers(drivers.map((driver) => driver.id === "DRV-1001" ? { ...driver, ...SEED_DRIVERS[0] } : driver));
+  }
+
+  const surgents = getSurgents();
+  const demoSurgent = surgents.find((surgent) => surgent.id === "SGT-0042");
+  if (demoSurgent && demoSurgent.name === "Anisur Rahman") {
+    saveSurgents(surgents.map((surgent) => surgent.id === "SGT-0042" ? { ...surgent, ...SEED_SURGENTS[0] } : surgent));
+  }
 }
 
 // ---- Drivers ---------------------------------------------------------------
